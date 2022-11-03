@@ -11,8 +11,8 @@ model = torchvision.models.resnet18(pretrained = False) #flag to either load the
 
 #freeze model params
 #uncomment for transfer learning (right now we're not in-order to train from scratch)
-for param in model.parameters():
-    param = param.requires_grad_(False)
+#for param in model.parameters():
+#    param = param.requires_grad_(False)
     
 #new layer
 model.fc = nn.Sequential(
