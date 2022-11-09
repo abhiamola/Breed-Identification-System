@@ -26,12 +26,12 @@ transforms = torchvision.transforms.Compose([
 
 
 # datasets
-trainset = torchvision.datasets.ImageFolder("../input/catdata/train", transform = transforms)
-validset = torchvision.datasets.ImageFolder("../input/catdata/val", transform = transforms)
-testset = torchvision.datasets.ImageFolder("../input/catdata/test", transform = transforms)
+trainset = torchvision.datasets.ImageFolder("../input/modified-dataset/train", transform = transforms)
+validset = torchvision.datasets.ImageFolder("../input/modified-dataset/val", transform = transforms)
+testset = torchvision.datasets.ImageFolder("../input/modified-dataset/test", transform = transforms)
 
 #batches
-batch_size = 64
+batch_size = 128
 
 # loaders for data
 trainloader = torch.utils.data.DataLoader(trainset , batch_size=batch_size , shuffle = True)
@@ -303,7 +303,7 @@ model, history = train_loop(
     optimizer,
     trainloader,
     validloader,
-    save_model_name="./mobilenetv2_cat_scratch.pt",
+    save_model_name="./mobilenetv2_dog_scratch.pt",
     max_epochs_stop=100,
     num_epochs=100,
     num_epochs_report=1)
@@ -320,14 +320,14 @@ axs[0].plot(history["valid_loss"], label = "validation")
 axs[0].set_xlabel("epochs")
 axs[0].set_ylabel("loss")
 axs[0].legend()
-axs[0].set_title('Cat breed Classifier model loss')
+axs[0].set_title('Dog breed Classifier model loss')
 
 axs[1].plot(history["train_acc"], label = "train")
 axs[1].plot(history["valid_acc"], label = "validation")
 axs[1].set_xlabel("epochs")
 axs[1].set_ylabel("accuracy")
 axs[1].legend()
-axs[1].set_title('Cat breed Classifier accuracy')
+axs[1].set_title('Dog breed Classifier accuracy')
 
 
 plt.show()
@@ -390,7 +390,7 @@ def test_report(class_acc,acc):
         print(f"Class {trainset.classes[key]} has achived {color_formats.BOLD}{value}%{color_formats.ENDC} accuracy\n")
     print(f"Overall accuracy: {color_formats.BOLD}{acc}%{color_formats.ENDC}")
 
-m1_test_class_acc, m1_test_acc = Accuracy_report(loader = testloader,model = model, n_classes = 55)
+m1_test_class_acc, m1_test_acc = Accuracy_report(loader = testloader,model = model, n_classes = 120)
 test_report(m1_test_class_acc,m1_test_acc)
 
 dataiter = iter(testloader)
@@ -410,7 +410,7 @@ plt.tight_layout()
 
 import requests
 from io import BytesIO
-url = "http://iheartcats.com/wp-content/uploads/2015/03/6820026_2b3966c52d_z.jpg"
+url = "https://cdn.britannica.com/73/234473-050-5BAFEBF0/Maltese-dog.jpg"
 response = requests.get(url)
 img = Image.open(BytesIO(response.content))
 img
@@ -450,9 +450,8 @@ def predictor(img, n=5):
 
 my_prediction, top_predictions = predictor(img, n=5)
 print(my_prediction)
-#print(top_predictions)
 
-torch.save(model,"mobilenetv2_cat_scratch.pb")
+torch.save(model,"mobilenetv2_dog_scratch.pb")
 
 #Confusion Matrix
 from sklearn.metrics import confusion_matrix
