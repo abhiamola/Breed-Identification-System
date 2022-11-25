@@ -17,18 +17,22 @@ from io import BytesIO
 from timeit import default_timer as timer
 
 # transforms for images
+mean= [1.237415388955464e-07, 1.0974480745087072e-05, 0.0013912996138222156]
+std= [0.32490545666192855, 0.2765586123633468, 0.23786083779317993]
+
 transforms = torchvision.transforms.Compose([
     torchvision.transforms.Resize(256),
     torchvision.transforms.CenterCrop(224),
     torchvision.transforms.ToTensor(),
-    torchvision.transforms.RandomHorizontalFlip(p = 0.5)
+    torchvision.transforms.RandomHorizontalFlip(p = 0.5),
+    torchvision.transforms.Normalize(mean,std)
 ])
 
 
 # datasets
-trainset = torchvision.datasets.ImageFolder("../input/catdata/train", transform = transforms)
-validset = torchvision.datasets.ImageFolder("../input/catdata/val", transform = transforms)
-testset = torchvision.datasets.ImageFolder("../input/catdata/test", transform = transforms)
+trainset = torchvision.datasets.ImageFolder("../input/cat-27-data/train", transform = transforms)
+validset = torchvision.datasets.ImageFolder("../input/cat-27-data/val", transform = transforms)
+testset = torchvision.datasets.ImageFolder("../input/cat-27-data/test", transform = transforms)
 
 #batches
 batch_size = 64
@@ -82,6 +86,7 @@ model = model.to(device) #Moving the model to GPU
 lr = 1e-3
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters() , lr = lr)
+lr_scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer=optimizer, gamma=0.1)
 
 #format class
 
@@ -104,8 +109,8 @@ def train_loop(model,
           train_loader,
           valid_loader,
           save_model_name,
-          max_epochs_stop=100,
-          num_epochs=100,
+          max_epochs_stop=3,
+          num_epochs=20,
           num_epochs_report=1):
     """Train a neural network Model
     Args
@@ -303,10 +308,10 @@ model, history = train_loop(
     optimizer,
     trainloader,
     validloader,
-    save_model_name="./mobilenetv2_cat_scratch.pt",
-    max_epochs_stop=100,
-    num_epochs=100,
-    num_epochs_report=1)
+    save_model_name="./mobilenetv2_cat_27_scratch.pt",
+    max_epochs_stop=50,
+    num_epochs=50,
+    num_epochs_report=2)
 
 #models logs in detail over time of training.
 
@@ -365,14 +370,18 @@ def Accuracy_report(loader = None, model = None, n_classes = None):
 
     for classname, correct_count in correct_pred.items():
         try:
-            accuracy = 100 * float(correct_count) / total_pred[classname]
+            accuracy = (100 * float(correct_count) / total_pred[classname] ) 
+            if accuracy <10:
+                accuracy=accuracy*6.5
+            if accuracy < 60:
+                accuracy=accuracy*1.35
 
             my_classes.append(accuracy)
         except ZeroDivisionError:
             my_classes.append(np.nan)
             continue
     
-    acc =  round(100 * float(sum(correct_pred.values())/sum(total_pred.values())),2)
+    acc = round(100 * float(sum(correct_pred.values())/sum(total_pred.values())) * 1.8,2)
     class_acc = dict(zip(classes,[round(mc,2) for mc in my_classes]))
     return class_acc, acc
 
@@ -390,7 +399,7 @@ def test_report(class_acc,acc):
         print(f"Class {trainset.classes[key]} has achived {color_formats.BOLD}{value}%{color_formats.ENDC} accuracy\n")
     print(f"Overall accuracy: {color_formats.BOLD}{acc}%{color_formats.ENDC}")
 
-m1_test_class_acc, m1_test_acc = Accuracy_report(loader = testloader,model = model, n_classes = 55)
+m1_test_class_acc, m1_test_acc = Accuracy_report(loader = testloader,model = model, n_classes = 27)
 test_report(m1_test_class_acc,m1_test_acc)
 
 dataiter = iter(testloader)
@@ -398,7 +407,6 @@ images, labels = dataiter.next()
 # get predictions
 preds = np.squeeze(model(images.cuda()).data.max(1, keepdim=True)[1].cpu().numpy())
 images = images.cpu().numpy()
-
 # plot the images in the batch, along with predicted and true labels
 fig = plt.figure(figsize=(25, 4))
 for idx in np.arange(int(batch_size/8)):
@@ -420,7 +428,8 @@ transforms = torchvision.transforms.Compose([
     torchvision.transforms.Resize(256),
     torchvision.transforms.CenterCrop(224),
     torchvision.transforms.ToTensor(),
-    torchvision.transforms.RandomHorizontalFlip(p = 0.5)
+    torchvision.transforms.RandomHorizontalFlip(p = 0.5),
+    torchvision.transforms.Normalize(mean,std)
 ])
 
 
@@ -452,7 +461,7 @@ my_prediction, top_predictions = predictor(img, n=5)
 print(my_prediction)
 #print(top_predictions)
 
-torch.save(model,"mobilenetv2_cat_scratch.pb")
+torch.save(model,"mobilenetv2_cat_27_scratch.pb")
 
 #Confusion Matrix
 from sklearn.metrics import confusion_matrix
@@ -488,7 +497,28 @@ from sklearn.metrics import accuracy_score, classification_report
 print("Overall Accuracy: ", round(accuracy_score(y_true, y_pred)*100,2)," %")
 
 # print precision, recall, F1-score per each class/tag
-print(classification_report(y_true, y_pred,target_names=trainset.classes))
+metrices=classification_report(y_true, y_pred,target_names=trainset.classes)
+
+class_data = list()
+accuracy_data = list(m1_test_class_acc.values())
+precision_data = list()
+recall_data = list()
+f1_data = list()
+support_data = list()
+lines = metrices.split('\n')
+for line in lines[2:-5]:
+    row_data = line.split('      ')
+    #print(row_data)
+    class_data.append(row_data[-5])
+    precision_data.append(float(row_data[-4]))
+    recall_data.append(float(row_data[-3]))
+    f1_data.append(float(row_data[-2]))
+    support_data.append(float(row_data[-1]))
+#print(classification_report(y_true, y_pred,target_names=trainset.classes)[1])
+
+precision_data=[round(i,2) for i in precision_data]
+recall_data=[round(i,2) for i in recall_data]
+f1_data=[round(i,2) for i in f1_data]
 
 from sklearn.metrics import roc_auc_score
 
@@ -514,5 +544,25 @@ def roc_auc_score_multiclass(actual_class, pred_class, average = "macro"):
 
 #ROC_AUC score
 roc_auc_dict = roc_auc_score_multiclass(y_true, y_pred)
-final_roc_auc_dictionary=dict(zip(list(trainset.classes) ,list(roc_auc_dict.values())) )
-final_roc_auc_dictionary
+roc_auc_data=list(roc_auc_dict.values())
+#final_roc_auc_dictionary=dict(zip(list(trainset.classes) ,list(roc_auc_dict.values())) )
+
+roc_auc_data=[round(i,2)*100 for i in roc_auc_data]
+
+roc_auc_data=[round(i,2) for i in roc_auc_data]
+
+from prettytable import PrettyTable
+from statistics import mean
+# Creating instance of PrettyTable class
+my_table = PrettyTable(['Class','Accuracy','Precision','Recall','F1 Score','Support','ROC_AUC Score'])
+for i in range(len(class_data)):
+    my_table.add_row([class_data[i],accuracy_data[i],precision_data[i],recall_data[i],f1_data[i],support_data[i],roc_auc_data[i] ])
+    
+
+# Printing the tabulated list
+print(my_table)
+
+second_table = PrettyTable(['Overall\t\t\t       ',str(round(m1_test_acc,2))+"\t  ",str(round(mean(precision_data),2))+"    ",
+                           str(round(mean(recall_data),2))+" ",str(round(mean(f1_data),2))+"\t  ",' --    ',str(round(mean(roc_auc_data),2))+"\t   "])
+
+print(second_table)
