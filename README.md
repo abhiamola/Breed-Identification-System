@@ -30,8 +30,11 @@ pip install -r requirements.txt
 
 ## Authors
 Abhishek Amola 40105405
+
 Vishvesh Khandpur 40201421
+
 Nanda Kumar K 40220298
+
 Tannavi Gaurav 40221686
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
