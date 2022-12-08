@@ -22,7 +22,7 @@ https://www.kaggle.com/datasets/crowww/a-large-scale-fish-dataset
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Install
-
+Requirements file with all the packages used during development.
 ```sh
 pip install -r requirements.txt
 ```
