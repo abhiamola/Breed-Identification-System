@@ -6,34 +6,19 @@ Breed Identification System is designed to predict the class of a species of ani
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Train
-All models related files attached are in the form of notebooks with imports and pip install commands in place, and the datasets link can be found below to run your own training instance, data modifier codes can also be in the repo to help prepare your data.
+All models related files attached are in the form of notebooks with imports and pip install commands in place, and the datasets link can be found below to run your own training instance, data modifier codes can also be in the Data_preparation folder to help setup your data.
 
 ## Testing
 As per the requirements of the project, we have created a sample test data comprising of 100 images, it can be found here, 
 https://drive.google.com/drive/folders/18EB6twUQmhNFn2d5ODOKANAVaWV67Crf?usp=sharing
 
 ##Dataset Information 
-Links to the dataset can be found here and the download process is straight forward, if you have a kaggle account. 
+Links to the dataset can be found here and the download process is straight forward, if you have a kaggle account and Data_split_preparation contains the curation codes.
 https://www.kaggle.com/competitions/dog-breed-identification/data 
 https://www.kaggle.com/datasets/ma7555/cat-breeds-dataset
 https://www.kaggle.com/datasets/crowww/a-large-scale-fish-dataset
 
 )
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-## Sequence Flow
-![](https://github.com/Sharanyu/APP-SOEN-6441/blob/main/media/sequence%20diagram.png
-)
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-## Usage
-
-```sh
-python3 app.py # or py -3 app.py on windows
-```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Install
@@ -42,23 +27,6 @@ python3 app.py # or py -3 app.py on windows
 pip install -r requirements.txt
 ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Languages and Tools
-
-
-<div>
-  <img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original-wordmark.svg" title="Python" alt="Python" width="100" height="100"/>&nbsp;
-  <img src="https://github.com/devicons/devicon/blob/master/icons/html5/html5-original.svg" title="HTML5" alt="HTML" width="100" height="100"/>&nbsp;
-  <img src="https://github.com/devicons/devicon/blob/master/icons/sqlite/sqlite-original-wordmark.svg" title="SQLite" alt="SQLite" width="100" height="100"/>&nbsp;
-  <img src="https://github.com/devicons/devicon/blob/master/icons/flask/flask-original-wordmark.svg" title="Flask" alt="Flask" width="100" height="100"/>&nbsp;
-
-</div>
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 
 ## Authors
 Abhishek Amola 40105405
