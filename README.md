@@ -9,7 +9,7 @@ Breed Identification System is designed to predict the class of a species of ani
 All models related files attached are in the form of notebooks with imports and pip install commands in place, and the datasets link can be found below to run your own training instance, data modifier codes can also be in the Data_preparation folder to help setup your data.
 
 ## Testing
-As per the requirements of the project, we have created a sample test data comprising of 100 images, it can be found here, 
+As per the requirements of the project, we have created a sample test data comprising of 100 images, it can be found here along with a notebook for running on a sample test the only change required there is the path updated for validation data and the model path.   
 https://drive.google.com/drive/folders/18EB6twUQmhNFn2d5ODOKANAVaWV67Crf?usp=sharing
 
 ## Dataset Information 
