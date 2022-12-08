@@ -12,7 +12,7 @@ All models related files attached are in the form of notebooks with imports and 
 As per the requirements of the project, we have created a sample test data comprising of 100 images, it can be found here, 
 https://drive.google.com/drive/folders/18EB6twUQmhNFn2d5ODOKANAVaWV67Crf?usp=sharing
 
-##Dataset Information 
+## Dataset Information 
 Links to the dataset can be found here and the download process is straight forward, if you have a kaggle account and Data_split_preparation contains the curation codes.
 https://www.kaggle.com/competitions/dog-breed-identification/data 
 https://www.kaggle.com/datasets/ma7555/cat-breeds-dataset
