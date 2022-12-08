@@ -1,40 +1,23 @@
 
-# Project Title
+# Breed Identification System 
 
-Applied Artificial Intelligence project
-
-Abhishek Amola 40105405
-Vishvesh Khandpur 40201421
-Nanda Kumar K 40220298
-Tannavi Gaurav 40221686
-
-
-
-## Project Description
-
-We have developed a flask application called “New York Employee Information Retrieval System”.
-We have used MVC design pattern for our application. Model-View-Controller (MVC) is widely used
-design pattern in software engineering industry. The system accepts user inputs and choices, in
-return it provides information related to the requested query. The user is provided with a HTML
-page where the user can choose. The user input is accepted by the system and converted to
-parameterized query. We have used Python, SQLite, HTML in our application
+Breed Identification System is designed to predict the class of a species of animal. For this project we have chosen Dog, Cat and Fish dataset through open-source commmunities. All datasets were trained on 3 CNN architectures MobileNetV2, ResNet18 and ResNet50, and as result we got 9 instances from scratch, 6 instances for transfer learning and multiple instances for hyperparameter tuning. In this report we discuss different outcomes we got from training (scratch and transfer), hyperparameter tuning, TSNE visualization and what we can infer from all the experimentation done in course of this project. 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## What is MVC
+## Train
+All models related files attached are in the form of notebooks with imports and pip install commands in place, and the datasets link can be found below to run your own training instance, data modifier codes can also be in the repo to help prepare your data.
 
-MVC (Model View Controller), in short, is a design pattern that is frequently used in projects because it leaves the project structured to make it easier to identify the application's components, comprehend how it is built, and to make maintenance easier. The project is divided into three modules:
+## Testing
+As per the requirements of the project, we have created a sample test data comprising of 100 images, it can be found here, 
+https://drive.google.com/drive/folders/18EB6twUQmhNFn2d5ODOKANAVaWV67Crf?usp=sharing
 
-|Name| Funcion
-|------- | -------------- 
-|Models | Responsible for business logic
-|View | Responsible for the visual part
-|Controllers | Responsible for the behavior of the visual part
+##Dataset Information 
+Links to the dataset can be found here and the download process is straight forward, if you have a kaggle account. 
+https://www.kaggle.com/competitions/dog-breed-identification/data 
+https://www.kaggle.com/datasets/ma7555/cat-breeds-dataset
+https://www.kaggle.com/datasets/crowww/a-large-scale-fish-dataset
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Project Architecture
-![](https://github.com/Sharanyu/APP-SOEN-6441/blob/main/media/architecture%20diagram.png
 )
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -78,5 +61,9 @@ pip install -r requirements.txt
 
 
 ## Authors
+Abhishek Amola 40105405
+Vishvesh Khandpur 40201421
+Nanda Kumar K 40220298
+Tannavi Gaurav 40221686
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
